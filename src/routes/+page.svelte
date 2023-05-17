@@ -1,4 +1,12 @@
 <script>
+import {onMount} from 'svelte';
+let data = [];
+let imagePath = 'src'
+onMount(async () => {
+	const response = await fetch('src/data/GPSstops.json');
+	data = await response.json();
+});
+
 </script>
 
 <style>
@@ -27,4 +35,6 @@
 	<li> Name: <b>Sienna Jeong</b> student number : <b>r0881089</b> University: <b>KU Leuven</b> </li> 
 </ul>
 </main>
+
+
 
