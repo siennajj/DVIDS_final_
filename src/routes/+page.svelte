@@ -23,8 +23,8 @@
 
 <main>
 <ul>
-	<h1>Data Visualiztion </h1>
-	<li> Name: Sienna Jeong student number : r0881089 University: KU Leuven </li> 
+	<h1>Data Visualiztion Final Project </h1>
+	<li> Name: <b>Sienna Jeong</b> student number : <b>r0881089</b> University: <b>KU Leuven</b> </li> 
 </ul>
 </main>
 
