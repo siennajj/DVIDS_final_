@@ -1,0 +1,15 @@
+<script>
+document.getElementById("selectcar_name").addEventListener("click", function(event){
+  event.preventDefault(); 
+
+  fetch('/src/data/GPSstops.json')
+    .then(reponse => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+});
+
+</script>

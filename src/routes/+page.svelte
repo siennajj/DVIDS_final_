@@ -51,9 +51,10 @@ function getLocationColor(type) {
   const LATITUDE_TO_PIXEL_RATIO = mapHeight / latitudeRange;
   const LONGITUDE_TO_PIXEL_RATIO = map_Width / longitudeRange;
 
-let selectcar_name = ''; // storing the selected car ID
+// storing the selected car ID
+let selectcar_name = ''; 
   const uniquecar_name = [...new Set(data.map(car => car.car_id))];
-  // Function to handle the selection change
+// Function to handle the selection change
   function handleSelect(event) {
     selectcar_name = event.target.value;
     console.log('Selected car ID:', selectcar_name);
