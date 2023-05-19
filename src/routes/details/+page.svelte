@@ -6,7 +6,7 @@ import data3 from '/src/data/points_of_interest.json';
 
 onMount(() => {
   const searchParams = new URLSearchParams(window.location.search);
-  selectedCarId = searchParams.get('param1');
+  PickCar_Name = searchParams.get('param1');
 });
 /*
 onMount(() => {
