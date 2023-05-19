@@ -55,7 +55,7 @@ function CAL_LocationColor(type) {
 let PickCar_Name = ''; 
   const uniquecar_name = [...new Set(data.map(car => car.car_id))];
 // Function to handle the selection change
-  function handleSelect(event) {
+  function UpdateSelection(event) {
     PickCar_Name = event.target.value;
     console.log('Selected car ID:', PickCar_Name);
   }
@@ -114,7 +114,7 @@ let PickCar_Name = '';
 </svg>
 
 <label for="car_name">Select a Car to Highlight:</label>
-<select id="car_name" on:change={handleSelect}>
+<select id="car_name" on:change={UpdateSelection}>
   {#each uniquecar_name as car_name}
     <option value={car_name}>{car_name}</option>
   {/each}
