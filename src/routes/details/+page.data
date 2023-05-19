@@ -1,1 +1,17 @@
+<script>
+//import
 
+document.getElementById("/src/routes/details/+page.svelte").addEventListener("click", function(event){
+  event.preventDefault(); 
+
+  fetch('/src/data/GPSstops.json')
+    .then(reponse => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+});
+
+</script>

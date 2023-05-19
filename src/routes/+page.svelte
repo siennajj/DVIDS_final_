@@ -5,12 +5,12 @@ import data from '../../src/data/GPSstops.json';
 import data2 from '../../src/data/carstops.json';
 import data3 from '../../src/data/points_of_interest.json';
 
-let selectData = [];
+let PickData = [];
 
 function dataLink(event) {
-	const selectIndex = event.target.selectIndex;
-	const PickCar_Name = parseInt(event.target.options[selectIndex].value);
-	selectData = data.filter((item) => item.car_name === PickCar_Name);
+	const PickIndex = event.target.PickIndex;
+	const PickCar_Name = parseInt(event.target.options[PickIndex].value);
+	PickData = data.filter((item) => item.car_name === PickCar_Name);
 }
 
 function processCircleCoords(item) {
@@ -40,12 +40,12 @@ function CAL_LocationColor(type) {
 
 	const Map_Width = 600;
   const Map_Height = 600;
-  const latitudes = data.map(car => car.lat);
-  const longitudes = data.map(car => car.long);
-  const Min_Latitude = Math.min(...latitudes);
-  const Max_Latitude = Math.max(...latitudes);
-  const Min_Longitude = Math.min(...longitudes);
-  const Max_Longitude = Math.max(...longitudes);
+  const Latitudes = data.map(car => car.lat);
+  const Longitudes = data.map(car => car.long);
+  const Min_Latitude = Math.min(...Latitudes);
+  const Max_Latitude = Math.max(...Latitudes);
+  const Min_Longitude = Math.min(...Longitudes);
+  const Max_Longitude = Math.max(...Longitudes);
   const Latitude_Range = Max_Latitude - Min_Latitude;
   const Longitude_Range = Max_Longitude - Min_Longitude;
   const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
