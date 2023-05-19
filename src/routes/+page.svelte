@@ -1,5 +1,4 @@
 <script>
-//import {json} from "d3-fetch";
 import {onMount} from 'svelte';
 import data from '../../src/data/GPSstops.json';
 import data2 from '../../src/data/carstops.json';
@@ -22,6 +21,7 @@ function processCircleCoords(item) {
 	const radious = 0.01;
 	return '${x},${y},${radius}';
 }
+
 
 function CAL_LocationColor(type) {
     switch(type) {
@@ -51,10 +51,9 @@ function CAL_LocationColor(type) {
   const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
   const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
 
-// storing the selected car ID
 let PickCar_Name = ''; 
   const uniquecar_name = [...new Set(data.map(car => car.car_id))];
-// Function to handle the selection change
+
   function UpdateSelection(event) {
     PickCar_Name = event.target.value;
     console.log('Selected car ID:', PickCar_Name);
@@ -121,8 +120,9 @@ let PickCar_Name = '';
 </select>
 
 {#if PickCar_Name}
-	<p>Go to details for <a href='/src/routes/details/+page.data'>details</a> for {PickCar_Name} </p>
+<p>Go to <a href={`/details?param1=${encodeURIComponent(PickCar_Name)}`}>details</a> for car {PickCar_Name}</p>
 {/if}
+
 
 
 </main>
