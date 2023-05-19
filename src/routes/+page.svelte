@@ -7,23 +7,23 @@ import data3 from '../../src/data/points_of_interest.json';
 
 let selectData = [];
 
-function handleChange(event) {
+function dataLink(event) {
 	const selectIndex = event.target.selectIndex;
-	const selectcar_name = parseInt(event.target.options[selectIndex].value);
-	selectData = data.filter((item) => item.car_name === selectcar_name);
+	const PickCar_Name = parseInt(event.target.options[selectIndex].value);
+	selectData = data.filter((item) => item.car_name === PickCar_Name);
 }
 
-function getCircleCoords(item) {
-	const map_Width = 0.0256;
-	const mapLatMax = 50.0784;
-	const mapLongMin = 4.78332;
-	const x = (item.long - mapLongMin) / map_Width;
-	const y = (mapLatMax - item.lat) / mapLatMax;
+function processCircleCoords(item) {
+	const Map_Width = 0.0256;
+	const Cir_LatMax = 50.0784;
+	const Cir_LongMin = 4.78332;
+	const x = (item.long - Cir_LongMin) / Map_Width;
+	const y = (Cir_LatMax - item.lat) / Cir_LatMax;
 	const radious = 0.01;
 	return '${x},${y},${radius}';
 }
 
-function getLocationColor(type) {
+function CAL_LocationColor(type) {
     switch(type) {
       case "professional":
         return "red";
@@ -38,26 +38,26 @@ function getLocationColor(type) {
     }
   }
 
-	const map_Width = 600;
-  const mapHeight = 600;
+	const Map_Width = 600;
+  const Map_Height = 600;
   const latitudes = data.map(car => car.lat);
   const longitudes = data.map(car => car.long);
-  const minLatitude = Math.min(...latitudes);
-  const maxLatitude = Math.max(...latitudes);
-  const minLongitude = Math.min(...longitudes);
-  const maxLongitude = Math.max(...longitudes);
-  const latitudeRange = maxLatitude - minLatitude;
-  const longitudeRange = maxLongitude - minLongitude;
-  const LATITUDE_TO_PIXEL_RATIO = mapHeight / latitudeRange;
-  const LONGITUDE_TO_PIXEL_RATIO = map_Width / longitudeRange;
+  const Min_Latitude = Math.min(...latitudes);
+  const Max_Latitude = Math.max(...latitudes);
+  const Min_Longitude = Math.min(...longitudes);
+  const Max_Longitude = Math.max(...longitudes);
+  const Latitude_Range = Max_Latitude - Min_Latitude;
+  const Longitude_Range = Max_Longitude - Min_Longitude;
+  const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
+  const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
 
 // storing the selected car ID
-let selectcar_name = ''; 
+let PickCar_Name = ''; 
   const uniquecar_name = [...new Set(data.map(car => car.car_id))];
 // Function to handle the selection change
   function handleSelect(event) {
-    selectcar_name = event.target.value;
-    console.log('Selected car ID:', selectcar_name);
+    PickCar_Name = event.target.value;
+    console.log('Selected car ID:', PickCar_Name);
   }
 
 </script>
@@ -92,20 +92,20 @@ let selectcar_name = '';
   <rect x="0" y="0" width="600" height="600" fill="#efefef" />
   {#each data as car}
     <circle
-      cx={(car.long - minLongitude) * LONGITUDE_TO_PIXEL_RATIO}
-      cy={(maxLatitude - car.lat) * LATITUDE_TO_PIXEL_RATIO}
+      cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
+      cy={(Max_Latitude - car.lat) * LATITUDE_COORD_RATIO}
       r="2"
-      opacity={car.car_id == selectcar_name? '1' : '0.2'}
-      fill={car.car_id == selectcar_name? 'red' : 'black'}
+      opacity={car.car_id == PickCar_Name? '1' : '0.2'}
+      fill={car.car_id == PickCar_Name? 'red' : 'black'}
     />
   {/each}
   {#each data3 as location}
     <g class="tooltip">
     <circle
-      cx={(location.long - minLongitude) * LONGITUDE_TO_PIXEL_RATIO}
-      cy={(maxLatitude - location.lat) * LATITUDE_TO_PIXEL_RATIO}
+      cx={(location.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
+      cy={(Max_Latitude - location.lat) * LATITUDE_COORD_RATIO}
       r="10"
-      fill={getLocationColor(location.type)}
+      fill={CAL_LocationColor(location.type)}
       opacity = "1"
     />
     <title>{location.name}</title>
@@ -120,8 +120,8 @@ let selectcar_name = '';
   {/each}
 </select>
 
-{#if selectcar_name}
-	<p>Go to details for <a href='/src/routes/details/+page.data'>details</a> for {selectcar_name} </p>
+{#if PickCar_Name}
+	<p>Go to details for <a href='/src/routes/details/+page.data'>details</a> for {PickCar_Name} </p>
 {/if}
 
 
