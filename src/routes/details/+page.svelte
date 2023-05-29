@@ -6,13 +6,12 @@
 
 // State
   let car = 0;
-  let PickCar_Name = "";
   let Car_Overview = "";
   let carData = [];
 
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    PickCar_Name = urlParams.get('param1');
+    let PickCar_Name = urlParams.get('param1');
     Car_Overview = urlParams.get('param2');
   });
 
