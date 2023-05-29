@@ -59,6 +59,14 @@ let PickCar_Name = '';
     console.log('Selected car ID:', PickCar_Name);
   }
 
+// state
+ let PickCar_Name = "";
+
+ onMount(() => {
+  const urlParams = new URLSearchParams(window.location.search);
+  PickCar_Name = urlParams.get('param1');
+  });
+
 </script>
 
 <style>
@@ -122,8 +130,6 @@ let PickCar_Name = '';
 {#if PickCar_Name}
 <p>Go to <a href={`/details?param1=${encodeURIComponent(PickCar_Name)}`}>details</a> for car {PickCar_Name}</p>
 {/if}
-
-
 
 </main>
 

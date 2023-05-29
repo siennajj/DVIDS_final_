@@ -5,8 +5,7 @@
   import data3 from '/src/data/points_of_interest.json';
 
 // State
-  let car = 0;
-  let PickCar_Name = "all";
+  let PickCar_Name = "";
   let Car_Overview = "";
 
   onMount(() => {
@@ -48,17 +47,43 @@ function CAL_LocationColor(type) {
   const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
 </script>
 
+<div container
 
 
+<div class="day-bars-container" style="width: 300px; height: 300px;">
+  {#each Object.keys(groupedData) as day}
+    <div class="day-bar">
+      <div class="day-label">{day}</div>
+      <div class="bar" style="width: 300px;">
+        {#each groupedData[day] as data}
+            <div class="location-marker {data.type}"></div>
+        {/each}
+        <div class="time-marker" style="left: 0%;"></div>
+        <div class="time-marker" style="left: 25%;"></div>
+        <div class="time-marker" style="left: 50%;"></div>
+        <div class="time-marker" style="left: 75%;"></div>
+        <div class="time-marker" style="left: 100%;"></div>
+        {#if day == Object.keys(groupedData)[Object.keys(groupedData).length - 1]}
+          <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
+          <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
+          <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
+          <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
+          <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
+        {/if}
+      </div>
+    </div>
+  {/each}
+</div>
 
 
 
 <main>
-
-{#if Car_Overview}
-<p><a href={`/Car Overview?param2=${encodeURIComponent(Car_Overview)}`}>Car Overview</a></p>
-<p> <a href={`/Prevuous Car?param2=${encodeURIComponent(Car_Overview)}`}>Prevuous Car</a> <a href={`/Next Car?param2=${encodeURIComponent(Car_Overview)}`}>Next Car</a></p>
-{/if}
+<p>
+    <a href={`/page_first`}>Go back to details</a>
+    <a href={`/car-overview?param2=${encodeURIComponent(Car_Overview)}`}>Car Overview</a>
+    <a href={`/previous-car?param2=${encodeURIComponent(Car_Overview)}`}>Previous Car</a>
+    <a href={`/next-car?param2=${encodeURIComponent(Car_Overview)}`}>Next Car</a>
+  </p>
 
 <ul><b>Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
@@ -80,6 +105,10 @@ function CAL_LocationColor(type) {
       opacity={car.car_id == PickCar_Name? '1' : '0.2'}
        />
   {/each}
+
+
+
+
 </svg>    
 
 
