@@ -11,7 +11,7 @@
 
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    let PickCar_Name = urlParams.get('param1');
+    PickCar_Name = urlParams.get('param1');
     Car_Overview = urlParams.get('param2');
   });
 
@@ -99,9 +99,3 @@
     <p id="sliderValue">{car}</p>
     
 </div>
-
- 
-
-
-
-
