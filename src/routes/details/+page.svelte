@@ -5,8 +5,10 @@
   import data3 from '/src/data/points_of_interest.json';
 
 // State
+  let car = 0;
   let PickCar_Name = "";
   let Car_Overview = "";
+  let carData = [];
 
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -22,67 +24,71 @@
       return data.filter(item => item.car_name === PickCar_Name);
     }
   }
-  
-function CAL_LocationColor(type) {
-    switch(type) {
-      case "professional":
-      case "catering":
-      case "domestic":
-      case "housing":
-      default:
-    }
+  function callCurrentCarIndex() {
+    return carData.findIndex(car => car === PickCar_Name);
   }
 
-	const Map_Width = 600;
-  const Map_Height = 600;
-  const Latitudes = data.map(car => car.lat);
-  const Longitudes = data.map(car => car.long);
-  const Min_Latitude = Math.min(...Latitudes);
-  const Max_Latitude = Math.max(...Latitudes);
-  const Min_Longitude = Math.min(...Longitudes);
-  const Max_Longitude = Math.max(...Longitudes);
-  const Latitude_Range = Max_Latitude - Min_Latitude;
-  const Longitude_Range = Max_Longitude - Min_Longitude;
-  const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
-  const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
+  function callPreviousCar() {
+    const currentIndex = callCurrentCarIndex();
+    if (currentIndex > 0) {
+      return carData[currentIndex - 1];
+    }
+    return null;
+  }
+
+  function callNextCar() {
+    const currentIndex = callCurrentCarIndex();
+    if (currentIndex < carData.length - 1) {
+      return carData[currentIndex + 1];
+    }
+    return null;
+  }
 </script>
 
-<div container
 
+<div container>
 
-<div class="day-bars-container" style="width: 300px; height: 300px;">
-  {#each Object.keys(groupedData) as day}
-    <div class="day-bar">
-      <div class="day-label">{day}</div>
-      <div class="bar" style="width: 300px;">
-        {#each groupedData[day] as data}
-            <div class="location-marker {data.type}"></div>
-        {/each}
-        <div class="time-marker" style="left: 0%;"></div>
-        <div class="time-marker" style="left: 25%;"></div>
-        <div class="time-marker" style="left: 50%;"></div>
-        <div class="time-marker" style="left: 75%;"></div>
-        <div class="time-marker" style="left: 100%;"></div>
-        {#if day == Object.keys(groupedData)[Object.keys(groupedData).length - 1]}
-          <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
-          <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
-          <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
-          <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
-          <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
-        {/if}
+  <div class="day-bars-container" style="width: 300px; height: 300px;">
+    {#each Object.keys(groupedData) as day}
+      <div class="day-bar">
+        <div class="day-label">{day}</div>
+        <div class="bar" style="width: 300px;">
+          {#each groupedData[day] as data}
+              <div class="location-marker {data.type}"></div>
+          {/each}
+          <div class="time-marker" style="left: 0%;"></div>
+          <div class="time-marker" style="left: 25%;"></div>
+          <div class="time-marker" style="left: 50%;"></div>
+          <div class="time-marker" style="left: 75%;"></div>
+          <div class="time-marker" style="left: 100%;"></div>
+          {#if day == Object.keys(groupedData)[Object.keys(groupedData).length - 1]}
+            <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
+            <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
+            <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
+            <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
+            <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
+          {/if}
+        </div>
       </div>
-    </div>
-  {/each}
-</div>
-
+    {/each}
+  </div>
 
 
 <main>
-<p>
-    <a href={`/page_first`}>Go back to details</a>
-    <a href={`/car-overview?param2=${encodeURIComponent(Car_Overview)}`}>Car Overview</a>
-    <a href={`/previous-car?param2=${encodeURIComponent(Car_Overview)}`}>Previous Car</a>
-    <a href={`/next-car?param2=${encodeURIComponent(Car_Overview)}`}>Next Car</a>
+  <p>
+    <a href="/overview">Car Overview</a> 
+    {#if carData && carData.length > 0}
+      {#each carData as car, index}
+        {#if car === PickCar_Name}
+          {#if index > 0}
+            <a href={`/details?param1=${encodeURIComponent(carData[index - 1])}`}>Previous Car</a> 
+          {/if}
+          {#if index < carData.length - 1}
+            <a href={`/details?param1=${encodeURIComponent(carData[index + 1])}`}>Next Car</a> 
+          {/if}
+        {/if}
+      {/each}
+    {/if}
   </p>
 
 <ul><b>Sienna Jeong - KU Leuven - r0881089 </b> </ul>
@@ -95,21 +101,7 @@ function CAL_LocationColor(type) {
     
 </div>
 
-<svg width=600 height=600>
-  <rect x="0" y="0" width="600" height="600" fill="#efefef" />
-  {#each data as car}
-    <circle
-      cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
-      cy={(Max_Latitude - car.lat) * LATITUDE_COORD_RATIO}
-      r="2"
-      opacity={car.car_id == PickCar_Name? '1' : '0.2'}
-       />
-  {/each}
-
-
-
-
-</svg>    
+ 
 
 
 
