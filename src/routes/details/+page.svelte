@@ -1,3 +1,7 @@
+<nav>
+    <a     href="src/routes/page.svelte"> Overview</a>
+</nav>
+
 <script>
   import {onMount} from 'svelte';
   import data from '/src/data/GPSstops.json';
@@ -7,11 +11,12 @@
 // State
   let car = 0;
   let Car_Overview = "";
+  let PickCar_Name = "";
   let carData = [];
-
+  
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    let PickCar_Name = urlParams.get('param1');
+    PickCar_Name = urlParams.get('param1');
     Car_Overview = urlParams.get('param2');
     carData = select(data2, PickCar_Name);
   });
@@ -52,7 +57,7 @@
 }
 .gps-data {
   
-
+/*would it be necessary?*/
 }
 
 .gps-image{
@@ -84,21 +89,18 @@
 
 
 <main>
-  <p>
-    <a href="/overview">Car Overview</a> 
-    {#if carData && carData.length > 0}
-      {#each carData as car, index}
-        {#if car === PickCar_Name}
-          {#if index > 0}
-            <a href={`/details?param1=${encodeURIComponent(carData[index - 1])}`}>Previous Car</a> 
-          {/if}
-          {#if index < carData.length - 1}
-            <a href={`/details?param1=${encodeURIComponent(carData[index + 1])}`}>Next Car</a> 
-          {/if}
-        {/if} 
-      {/each}
-    {/if}
-  </p>
+{#if carData && carData.length > 0}
+  {#each carData as car, index}
+      {#if car === PickCar_Name}
+        {#if index > 0}
+          <a href={`/details?param1=${encodeURIComponent(carData[index - 1])}`}>Previous Car</a> 
+        {/if}
+        {#if index < carData.length - 1}
+          <a href={`/details?param1=${encodeURIComponent(carData[index + 1])}`}>Next Car</a> 
+        {/if}
+      {/if} 
+    {/each}
+{/if}
 
 <ul><b>Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 

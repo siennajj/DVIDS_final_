@@ -60,7 +60,7 @@ let PickCar_Name = '';
   }
 
 // state
- let PickCar_Name = "";
+//  let PickCar_Name = "";
 
  onMount(() => {
   const urlParams = new URLSearchParams(window.location.search);
