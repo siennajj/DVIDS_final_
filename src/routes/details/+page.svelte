@@ -9,6 +9,7 @@
   let Car_Overview = "";
   let carData = [];
 
+
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
     PickCar_Name = urlParams.get('param1');
@@ -45,18 +46,28 @@
 </script>
 
 <style>
-container{
+.container{
   display: flex;
   align-items: flex-start;
 }
+.svg-container {
+  width: 
+}
 
+.gps-image{
+  width: 300px;
+  height: 300px;
+}
+
+</style>
 
 
 
 <div class="container">
   <div calss="svg-container">
+  </div>
   <div class= "gps-image">
-    <img src="data" alt="GPS stop" width="300" height="300">
+    <img src="data" alt="GPS stops" width="300" height="300">
   </div>
 </div>
   
