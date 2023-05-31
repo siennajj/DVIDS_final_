@@ -44,33 +44,23 @@
   }
 </script>
 
+<style>
+container{
+  display: flex;
+  align-items: flex-start;
+}
 
-<div container>
 
-  <div class="day-bars-container" style="width: 300px; height: 300px;">
-    {#each Object.keys(groupedData) as day}
-      <div class="day-bar">
-        <div class="day-label">{day}</div>
-        <div class="bar" style="width: 300px;">
-          {#each groupedData[day] as data}
-              <div class="location-marker {data.type}"></div>
-          {/each}
-          <div class="time-marker" style="left: 0%;"></div>
-          <div class="time-marker" style="left: 25%;"></div>
-          <div class="time-marker" style="left: 50%;"></div>
-          <div class="time-marker" style="left: 75%;"></div>
-          <div class="time-marker" style="left: 100%;"></div>
-          {#if day == Object.keys(groupedData)[Object.keys(groupedData).length - 1]}
-            <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
-            <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
-            <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
-            <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
-            <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
-          {/if}
-        </div>
-      </div>
-    {/each}
+
+
+<div class="container">
+  <div calss="svg-container">
+  <div class= "gps-image">
+    <img src="data" alt="GPS stop" width="300" height="300">
   </div>
+</div>
+  
+</div>
 
 
 <main>
