@@ -9,11 +9,11 @@
   let Car_Overview = "";
   let carData = [];
 
-
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    PickCar_Name = urlParams.get('param1');
+    let PickCar_Name = urlParams.get('param1');
     Car_Overview = urlParams.get('param2');
+    carData = select(data2, PickCar_Name);
   });
 
   // Select which data to show
@@ -50,8 +50,9 @@
   display: flex;
   align-items: flex-start;
 }
-.svg-container {
-  width: 
+.gps-data {
+  
+
 }
 
 .gps-image{
@@ -62,16 +63,24 @@
 </style>
 
 
-
 <div class="container">
-  <div calss="svg-container">
+  <div class="svg-container">
+
   </div>
+
+  <div class="gps-data">
+  {#each carData as item}
+    <p>{item.time}: {item.location}</p>
+  {/each}
+  </div>
+
   <div class= "gps-image">
     <img src="data" alt="GPS stops" width="300" height="300">
   </div>
+
 </div>
   
-</div>
+
 
 
 <main>
@@ -86,7 +95,7 @@
           {#if index < carData.length - 1}
             <a href={`/details?param1=${encodeURIComponent(carData[index + 1])}`}>Next Car</a> 
           {/if}
-        {/if}
+        {/if} 
       {/each}
     {/if}
   </p>
