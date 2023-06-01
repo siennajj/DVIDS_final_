@@ -49,19 +49,25 @@
   }
 
   function processCircleCoords(item) {
-  
-	const Map_Width = 600;
-  const Map_Height = 600;
-  const Latitudes = data.map(car => car.lat);
-  const Longitudes = data.map(car => car.long);
-  const Min_Latitude = Math.min(...Latitudes);
-  const Max_Latitude = Math.max(...Latitudes);
-  const Min_Longitude = Math.min(...Longitudes);
-  const Max_Longitude = Math.max(...Longitudes);
-  const Latitude_Range = Max_Latitude - Min_Latitude;
-  const Longitude_Range = Max_Longitude - Min_Longitude;
-  const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
-  const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
+    const Map_Width = 600;
+    const Map_Height = 600;
+    const Latitudes = data.map(car => car.lat);
+    const Longitudes = data.map(car => car.long);
+    const Min_Latitude = Math.min(...Latitudes);
+    const Max_Latitude = Math.max(...Latitudes);
+    const Min_Longitude = Math.min(...Longitudes);
+    const Max_Longitude = Math.max(...Longitudes);
+    const Latitude_Range = Max_Latitude - Min_Latitude;
+    const Longitude_Range = Max_Longitude - Min_Longitude;
+    const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
+    const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
+ 
+    const x = (item.long - Min_Longitude) * LONGITUDE_COORD_RATIO;
+  	const y = (Max_Latitude - item.lat) * LATITUDE_COORD_RATIO;
+	  const radious = 2;
+
+    return '${x},${y},${radius}';
+  }
 
 </script>
 
@@ -70,48 +76,41 @@
   display: flex;
   align-items: flex-start;
 }
-
-/*.gps-data {
-/*would it be necessary?
-}*/
-
-
+.gps-image{
+  width: 300px;
+  hegiht: 300px;
+}
 </style>
 
 
 <div class="container">
-  
-
-</div>
-
-<div class="gps-image">
-  <svg width="300" heigjt="300">
-    <rect x="0" y="0" width="300" height="300" fill="#efefef" />
-    {#each data as car}
-      {#if car.car_id ===PickCar_Name}
-    <circle
-      cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
-      cy={(Max_Latitude - car.lat) * LATITUDE_COORD_RATIO}
-      r="2"
-      fill="red"
-    />
-      {/if}
-    {/each}
-    {#each data3 as location}
-      <g class="tooltip">
-        <circle
-          cx={(location.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
-          cy={(Max_Latitude - location.lat) * LATITUDE_COORD_RATIO}
-          r="7"
-          opacity = "1"
-        />
-        <title>{location.name}</title>
-      </g>
-    {/each}
-  </svg>
-</div>
-
- 
+  <div class="gps-image">
+    <svg width="300" heigjt="300">
+      <rect x="0" y="0" width="300" height="300" fill="#efefef" />
+      {#each data as car}
+        {#if car.car_id === PickCar_Name}
+          <circle
+            cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
+            cy={(Max_Latitude - car.lat) * LATITUDE_COORD_RATIO}
+            r="2"
+            fill="red"
+          />
+        {/if}
+      {/each}
+      {#each data3 as location}
+        <g class="tooltip">
+          <circle
+            cx={(location.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
+            cy={(Max_Latitude - location.lat) * LATITUDE_COORD_RATIO}
+            r="7"
+           opacity = "1"
+          />
+          <title>{location.name}</title>
+        </g>
+      {/each}
+    </svg>
+  </div>
+</div> 
   
 <main>
 {#if carData && carData.length > 0}
