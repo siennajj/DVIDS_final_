@@ -122,7 +122,7 @@ let PickCar_Name = '';
     <circle
       cx={(location.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
       cy={(Max_Latitude - location.lat) * LATITUDE_COORD_RATIO}
-      r="10"
+      r="7"
       fill={CAL_LocationColor(location.type)}
       opacity = "1"
     />

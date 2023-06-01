@@ -17,11 +17,11 @@
     const urlParams = new URLSearchParams(window.location.search);
     PickCar_Name = urlParams.get('param1');
     //Car_Overview = urlParams.get('param2');
-    carData = select(data2, PickCar_Name);
+    carData = selectData(data2, PickCar_Name);
   });
 
   // Select which data to show
-  function selectData(data, data2, data3) {
+  function selectData(data2, PickCar_Name) {
     if (PickCar_Name === "all") {
       return data2;
     } else {
@@ -48,7 +48,20 @@
     return null;
   }
 
- // function 
+  function processCircleCoords(item) {
+  
+	const Map_Width = 600;
+  const Map_Height = 600;
+  const Latitudes = data.map(car => car.lat);
+  const Longitudes = data.map(car => car.long);
+  const Min_Latitude = Math.min(...Latitudes);
+  const Max_Latitude = Math.max(...Latitudes);
+  const Min_Longitude = Math.min(...Longitudes);
+  const Max_Longitude = Math.max(...Longitudes);
+  const Latitude_Range = Max_Latitude - Min_Latitude;
+  const Longitude_Range = Max_Longitude - Min_Longitude;
+  const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
+  const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
 
 </script>
 
@@ -58,51 +71,47 @@
   align-items: flex-start;
 }
 
-.gps-data {
-/*would it be necessary?*/
-}
-.gps-image{
-  width: 300px;
-  height: 300px;
-}
+/*.gps-data {
+/*would it be necessary?
+}*/
+
 
 </style>
 
 
 <div class="container">
-  <div class="svg-container">
-  <svg width="300" height="300">
-    <rect x="0" y="0" width="600" height="600" fill="#efefef" />
-  {#each data as car}
+  
+
+</div>
+
+<div class="gps-image">
+  <svg width="300" heigjt="300">
+    <rect x="0" y="0" width="300" height="300" fill="#efefef" />
+    {#each data as car}
+      {#if car.car_id ===PickCar_Name}
     <circle
       cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
       cy={(Max_Latitude - car.lat) * LATITUDE_COORD_RATIO}
       r="2"
-      opacity={car.car_id == PickCar_Name? '1' : '0.2'}
-      fill={car.car_id == PickCar_Name? 'red' : 'black'}
+      fill="red"
     />
-  {/each}
-  {#each data3 as location}
-    <g class="tooltip">
-    <circle
-      cx={(location.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
-      cy={(Max_Latitude - location.lat) * LATITUDE_COORD_RATIO}
-      r="10"
-      fill={CAL_LocationColor(location.type)}
-      opacity = "1"
-    />
-    <title>{location.name}</title>
-    </g>
-  {/each}
+      {/if}
+    {/each}
+    {#each data3 as location}
+      <g class="tooltip">
+        <circle
+          cx={(location.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
+          cy={(Max_Latitude - location.lat) * LATITUDE_COORD_RATIO}
+          r="7"
+          opacity = "1"
+        />
+        <title>{location.name}</title>
+      </g>
+    {/each}
   </svg>
 </div>
 
-<div class="gps-data">
-  {#each carData as item}
-    <p>{item.time}: {item.location}</p>
-  {/each}
-  </div>
-</div>
+ 
   
 <main>
 {#if carData && carData.length > 0}
@@ -125,6 +134,6 @@
 <div id="sliderDetails">
   <div class="slider-container">
     <input type="range" min="0" max="20160" bind:value={car} step="1440" id="slider">
-    <p id="sliderValue">{car}</p>
+    <p id="sliderValue"> </p>
   </div>    
 </div>
