@@ -48,24 +48,23 @@
     return null;
   }
 
-  function processCircleCoords(item) {
-    const Map_Width = 600;
-    const Map_Height = 600;
-    const Latitudes = data.map(car => car.lat);
-    const Longitudes = data.map(car => car.long);
-    const Min_Latitude = Math.min(...Latitudes);
-    const Max_Latitude = Math.max(...Latitudes);
-    const Min_Longitude = Math.min(...Longitudes);
-    const Max_Longitude = Math.max(...Longitudes);
-    const Latitude_Range = Max_Latitude - Min_Latitude;
-    const Longitude_Range = Max_Longitude - Min_Longitude;
-    const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
-    const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
+  const Map_Width = 600;
+  const Map_Height = 600;
+  const Latitudes = data.map(car => car.lat);
+  const Longitudes = data.map(car => car.long);
+  const Min_Latitude = Math.min(...Latitudes);
+  const Max_Latitude = Math.max(...Latitudes);
+  const Min_Longitude = Math.min(...Longitudes);
+  const Max_Longitude = Math.max(...Longitudes);
+  const Latitude_Range = Max_Latitude - Min_Latitude;
+  const Longitude_Range = Max_Longitude - Min_Longitude;
+  const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
+  const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
  
+  function processCircleCoords(item) {
     const x = (item.long - Min_Longitude) * LONGITUDE_COORD_RATIO;
   	const y = (Max_Latitude - item.lat) * LATITUDE_COORD_RATIO;
 	  const radious = 2;
-
     return '${x},${y},${radius}';
   }
 
