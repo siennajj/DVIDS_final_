@@ -95,6 +95,17 @@ let PickCar_Name = '';
 	<li> Name: <b>Sienna Jeong</b> Student Number : <b>r0881089</b> University: <b>KU Leuven</b>
 </li> <li> <b>overview</b> </li> </ul>
 
+<label for="car_name">Select a Car to Highlight:</label>
+<select id="car_name" on:change={UpdateSelection}>
+  {#each uniquecar_name as car_name}
+    <option value={car_name}>{car_name}</option>
+  {/each}
+</select>
+
+{#if PickCar_Name}
+<p>Go to <a href={`/details?param1=${encodeURIComponent(PickCar_Name)}`}>details</a> for car {PickCar_Name}</p>
+{/if}
+
 <svg width=600 height=600>
   <rect x="0" y="0" width="600" height="600" fill="#efefef" />
   {#each data as car}
@@ -119,17 +130,6 @@ let PickCar_Name = '';
     </g>
   {/each}
 </svg>
-
-<label for="car_name">Select a Car to Highlight:</label>
-<select id="car_name" on:change={UpdateSelection}>
-  {#each uniquecar_name as car_name}
-    <option value={car_name}>{car_name}</option>
-  {/each}
-</select>
-
-{#if PickCar_Name}
-<p>Go to <a href={`/details?param1=${encodeURIComponent(PickCar_Name)}`}>details</a> for car {PickCar_Name}</p>
-{/if}
 
 </main>
 
