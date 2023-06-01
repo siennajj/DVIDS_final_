@@ -91,6 +91,7 @@
 
 
 <main>
+<p>
   {#if carData && carData.length > 0}
     {#if callPreviousCar()}
       <a href={`/details?param1=${encodeURIComponent(callPreviousCar().car_name)}`}>Previous Car</a> 
@@ -98,8 +99,11 @@
     {#if callNextCar()}
       <a href={`/details?param1=${encodeURIComponent(callNextCar().car_name)}`}>Next Car</a> 
     {/if}
-  {:else}
   {/if}
+
+  </p>
+ 
+
 
   <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
