@@ -59,9 +59,6 @@ let PickCar_Name = '';
     console.log('Selected car ID:', PickCar_Name);
   }
 
-// state
-//  let PickCar_Name = "";
-
  onMount(() => {
   const urlParams = new URLSearchParams(window.location.search);
   PickCar_Name = urlParams.get('param1');
