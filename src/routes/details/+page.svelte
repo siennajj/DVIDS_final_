@@ -17,19 +17,20 @@
     const urlParams = new URLSearchParams(window.location.search);
     PickCar_Name = urlParams.get('param1');
     //Car_Overview = urlParams.get('param2');
-    carData = selectData(data2, PickCar_Name);
+    carData = selectData(data2);
   });
 
   // Select which data to show
-  function selectData(data2, PickCar_Name) {
+  function selectData(data) {
     if (PickCar_Name === "all") {
-      return data2;
+      return data;
     } else {
-      return data2.filter(item => item.car_name === PickCar_Name);
+      return data.filter(item => item.car_name === PickCar_Name);
     }
   }
+  
   function callCurrentCarIndex() {
-    return carData.findIndex(car => car === PickCar_Name);
+    return carData.findIndex(car => car.car_name === PickCar_Name);
   }
 
   function callPreviousCar() {
@@ -48,8 +49,9 @@
     return null;
   }
 
-  const Map_Width = 600;
-  const Map_Height = 600;
+
+  const Map_Width = 300;
+  const Map_Height = 300;
   const Latitudes = data.map(car => car.lat);
   const Longitudes = data.map(car => car.long);
   const Min_Latitude = Math.min(...Latitudes);
@@ -61,12 +63,7 @@
   const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
   const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
  
-  function processCircleCoords(item) {
-    const x = (item.long - Min_Longitude) * LONGITUDE_COORD_RATIO;
-  	const y = (Max_Latitude - item.lat) * LATITUDE_COORD_RATIO;
-	  const radious = 2;
-    return '${x},${y},${radius}';
-  }
+
 
 </script>
 
@@ -79,15 +76,20 @@
   width: 300px;
   hegiht: 300px;
 }
+.overview-image {
+  width: 300px;
+  height: 300px;
+  margin-left: 20px;
+}
 </style>
 
 
 <div class="container">
   <div class="gps-image">
-    <svg width="300" heigjt="300">
+    <svg width="300" height="300">
       <rect x="0" y="0" width="300" height="300" fill="#efefef" />
-      {#each data as car}
-        {#if car.car_id === PickCar_Name}
+      {#each carData as car}
+        {#if car.car_name === PickCar_Name}
           <circle
             cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
             cy={(Max_Latitude - car.lat) * LATITUDE_COORD_RATIO}
