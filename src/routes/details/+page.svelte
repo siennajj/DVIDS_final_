@@ -12,13 +12,14 @@
   let car = 0;
   let PickCar_Name = "";
   let carData = [];
+  let carIndex = 0;
   
   // Select which data to show
-  function selectData(data) {
+  function selectData() {
     if (PickCar_Name === "all") {
       return data;
     } else {
-      return data.filter(item => item.car_name === PickCar_Name);
+      return data2.filter(item => item.car_name === PickCar_Name);
     }
   }
 
@@ -26,7 +27,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     PickCar_Name = urlParams.get('param1');
     //Car_Overview = urlParams.get('param2');
-    carData = selectData(data);
+    carData = selectData();
     carIndex = carData.findIndex(car => car.car_name === PickCar_Name);
   });
 
@@ -72,9 +73,9 @@
   let LONGITUDE_COORD_RATIO;
 
   $: {
-    if (data && data.length > 0) {
-      Latitudes = data.map(car => car.lat);
-      Longitudes = data.map(car => car.long);
+    if (carData && carData.length > 0) {
+      Latitudes = carData.map(car => car.lat);
+      Longitudes = carData.map(car => car.long);
       Min_Latitude = Math.min(...Latitudes);
       Max_Latitude = Math.max(...Latitudes);
       Min_Longitude = Math.min(...Longitudes);
@@ -90,17 +91,17 @@
 
 
 <main>
-{#if carData && carData.length > 0}
-  {#if index > 0}
-    <a href={`/details?param1=${encodeURIComponent(callPreviousCar().car_name)}`}>Previous Car</a> 
+  {#if carData && carData.length > 0}
+    {#if callPreviousCar()}
+      <a href={`/details?param1=${encodeURIComponent(callPreviousCar().car_name)}`}>Previous Car</a> 
+    {/if}
+    {#if callNextCar()}
+      <a href={`/details?param1=${encodeURIComponent(callNextCar().car_name)}`}>Next Car</a> 
+    {/if}
+  {:else}
   {/if}
-        
-  {#if index < carData.length - 1}
-    <a href={`/details?param1=${encodeURIComponent(callNextCar().car_name)}`}>Next Car</a> 
-  {/if}
-{/if}
 
-<ul><b>Sienna Jeong - KU Leuven - r0881089 </b> </ul>
+  <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
 </main>
 
@@ -111,6 +112,10 @@
   </div>    
 </div>
 
+{#if PickCar_Name}
+<p> <b>Details for Car {PickCar_Name}</b></p>
+{/if}
+
 
 <style>
 .container{
@@ -119,8 +124,10 @@
 }
 
 /*.gps-data {
-/*would it be necessary?
+  display: flex;
+  align-items: flex-start;
 }*/
+
 /*.gps-image{
   width: 300px;
   height: 300px;
@@ -133,22 +140,26 @@
   <div class="svg-container">
   <svg width="{Map_Width}" height="{Map_Height}">
     <rect x="0" y="0" width="{Map_Width}" height="{Map_Height}" fill="#efefef" />
-    {#each data as car}
+    {#each carData as car}
+      {#if car.car_name === PickCar_Name}
       <circle
         cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
         cy={(car.lat - Min_Latitude) * LATITUDE_COORD_RATIO}
         r="2"
-        opacity={car.car_name == PickCar_Name? '1' : '0.2'}
+        opacity="1"
         fill={CAL_LocationColor(car.type)}
       />
+      {/if}
     {/each}
   </svg>
-</div>
+  </div>
 
-<div class="gps-data">
-  {#each data as item}
-    <p>{item.time}: {item.location}</p>
-  {/each}
+  <div class="gps-data">
+    {#each carData as item}
+      {#if item.car_name === PickCar_Name}
+      <p>{item.time}: {item.location}</p>
+      {/if}
+    {/each}
   </div>
 </div>
 
