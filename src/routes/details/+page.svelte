@@ -11,15 +11,15 @@
 // State
   let car = 0;
   let PickCar_Name = "";
-  let carData = selectData;
+  let carData = [];
   let carIndex = 0;
-  
-  // Select which data to show
+ 
+   // Select which data to show
   function selectData() {
     if (PickCar_Name === "all") {
       return data;
     } else {
-      return data2.filter(item => item.car_name === PickCar_Name);
+      return data2.filter((item) => item.car_name === PickCar_Name);
     }
   }
 
@@ -27,7 +27,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     PickCar_Name = urlParams.get('param1');
     //Car_Overview = urlParams.get('param2');
-    let carData = selectData();
+    carData = selectData();
     carIndex = carData.findIndex((car) => car.car_name === PickCar_Name);
   });
 
@@ -48,6 +48,7 @@
     }
     return null;
   }
+
   function CAL_LocationColor(type) {
     switch(type) {
       case "professional":
@@ -62,38 +63,32 @@
         return "blue";
     }
   }
-
+  
 	const Map_Width = 300;
   const Map_Height = 300;
-  //let Latitudes = [];
-  //let Longitudes = [];
-  let Min_Latitude;
-  let Max_Latitude;
-  let Min_Longitude;
-  let Max_Longitude;
-  //let Latitude_Range;
-  //let Longitude_Range;
-  let LATITUDE_COORD_RATIO;
-  let LONGITUDE_COORD_RATIO;
+  const Latitudes = data.map((car) => car.lat);
+  const Longitudes = data.map((car) => car.long);
+  const Min_Latitude = Math.min(...Latitudes);
+  const Max_Latitude = Math.max(...Latitudes);
+  const Min_Longitude = Math.min(...Longitudes);
+  const Max_Longitude = Math.max(...Longitudes);
+  const Latitude_Range = Max_Latitude - Min_Latitude;
+  const Longitude_Range = Max_Longitude - Min_Longitude;
+  const LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
+  const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
 
-  $: {
-    if (carData && carData.length > 0) {
-      const Latitudes = carData.map((car) => car.lat);
-      const Longitudes = carData.map((car) => car.long);
-      Min_Latitude = Math.min(...Latitudes);
-      Max_Latitude = Math.max(...Latitudes);
-      Min_Longitude = Math.min(...Longitudes);
-      Max_Longitude = Math.max(...Longitudes);
-      Latitude_Range = Max_Latitude - Min_Latitude;
-      Longitude_Range = Max_Longitude - Min_Longitude;
-      LATITUDE_COORD_RATIO = Map_Height / (Max_Latitude - Min_Latitude);
-      LONGITUDE_COORD_RATIO = Map_Width / (Max_Longitude - Min_Longitude);
+  const customData = {};
+  for (const item of data) {
+    if (item.time) {
+      const day = item.time.slice(0, 10);
+      if (!customData[day]) {
+      customData[day] = [];
+    }
+    customData[day].push(item);
     }
   }
-  //console.log("carData:", carData);
-
+    
 </script>
-
 
 <main>
   <div class="col-4">
@@ -108,7 +103,7 @@
 
   <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
-</main>
+</main> 
 
 <div id="sliderDetails">
   <label class="form-label col-sm-10">
@@ -117,7 +112,7 @@
   {/if}
   <input type="range" class="form-range" min="0" max="20160" bind:value={car} step="1440" id="slider"/>
   </label>
-</div>    
+</div>   
 
 
 <style>
@@ -128,16 +123,13 @@
 .svg-container {
   display: flex;
   align-items: flex-start;
+  /*margin-right: 10px;*/
 }
 .svg-data {
-   display: flex;
+  display: flex;
   align-items: flex-start;
+  /*margin-top: 10px;*/
 }
-
-/*.gps-image{
-  width: 300px;
-  height: 300px;
-}*/
 
 </style>
 
@@ -146,27 +138,52 @@
   <div class="svg-container">
   <svg width="{Map_Width}" height="{Map_Height}">
     <rect x="0" y="0" width="{Map_Width}" height="{Map_Height}" fill="#efefef" />
-    {#each carData as car}
-      <circle
-        if: car.car_name = PickCar_Name
-        cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
-        cy={(car.lat - Min_Latitude) * LATITUDE_COORD_RATIO}
-        r="2"
-        opacity="1"
-        fill={CAL_LocationColor(car.type)}
-      />
-    {/each}
+  {#each data as car}
+    <circle
+      cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
+      cy={(car.lat - Min_Latitude) * LATITUDE_COORD_RATIO}
+      r="2"
+      opacity="1"
+      fill={car.car_id == PickCar_Name? 'red' : 'black'}
+    />
+  {/each}
+  
   </svg>
   </div>
 
-  <div class="svg-data">
-    {#each carData as item}
+ <div class="svg-data">
+    {#each data as item}
       {#if item.car_name === PickCar_Name}
       <p>{item.time}: {item.location}</p>
       {/if}
     {/each}
   </div>
-
 </div>
 
-   
+<div style="display: flex; justify-content: flex-end;">   
+  <div class="day-bars-container" style="width: 300px; height: 300px;">
+    {#each Object.keys(customData) as day}
+      <div class="day-bar">
+        <div class="day-label">{day}</div>
+        <div class="bar" style="width: 300px;">
+          {#each customData[day] as data}
+              <div class="location-marker {data.type}"></div>
+          {/each}
+          <div class="time-marker" style="left: 0%;"></div>
+          <div class="time-marker" style="left: 25%;"></div>
+          <div class="time-marker" style="left: 50%;"></div>
+          <div class="time-marker" style="left: 75%;"></div>
+          <div class="time-marker" style="left: 100%;"></div>
+          {#if day == Object.keys(customData)[Object.keys(customData).length - 1]}
+            <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
+            <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
+            <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
+            <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
+            <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
+          {/if}
+        </div>
+      </div>
+    {/each}
+  </div>
+</div>
+  
