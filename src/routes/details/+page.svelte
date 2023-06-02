@@ -91,18 +91,19 @@
 
 
 <main>
-<p>
-  {#if carData && carData.length > 0}
-    {#if callPreviousCar()}
-      <a href={`/details?param1=${encodeURIComponent(callPreviousCar().car_name)}`}>Previous Car</a> 
-    {/if}
-    {#if callNextCar()}
-      <a href={`/details?param1=${encodeURIComponent(callNextCar().car_name)}`}>Next Car</a> 
-    {/if}
-  {/if}
+<div class="row">
+  <div class="col-4">
+    <button type="button" class="btn btn-primary" on:click={() => callPreviousCar()}>
+      Previous Car
+    </button>
 
-  </p>
- 
+    <button type="button" class="btn btn-primary" on:click={() => callNextCar()}>
+      Next Car
+    </button>
+  </div>
+</div>
+
+
 
 
   <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
@@ -110,15 +111,13 @@
 </main>
 
 <div id="sliderDetails">
-  <div class="slider-container">
-    <input type="range" min="0" max="20160" bind:value={car} step="1440" id="slider">
-    <p id="sliderValue"> </p>
-  </div>    
-</div>
-
-{#if PickCar_Name}
-<p> <b>Details for Car {PickCar_Name}</b></p>
-{/if}
+  <label class="form-label col-sm-10">
+  {#if PickCar_Name}
+  <p> <b>Details for Car {PickCar_Name}</b></p>
+  {/if}
+  <input type="range" class="form-range" min="0" max="20160" bind:value={car} step="1440" id="slider"/>
+  </label>
+</div>    
 
 
 <style>
