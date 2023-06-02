@@ -11,7 +11,7 @@
 // State
   let car = 0;
   let PickCar_Name = "";
-  let carData = [];
+  let carData = selectData;
   let carIndex = 0;
   
   // Select which data to show
@@ -27,20 +27,24 @@
     const urlParams = new URLSearchParams(window.location.search);
     PickCar_Name = urlParams.get('param1');
     //Car_Overview = urlParams.get('param2');
-    carData = selectData();
-    carIndex = carData.findIndex(car => car.car_name === PickCar_Name);
+    let carData = selectData();
+    carIndex = carData.findIndex((car) => car.car_name === PickCar_Name);
   });
 
   function callPreviousCar() {
     if (carIndex > 0) {
-      return carData[carIndex - 1];
+      carIndex--;
+      PickCar_Name = carData[carIndex].car_name;
+      return carData[carIndex];
     }
     return null;
   }
 
   function callNextCar() {
     if (carIndex < carData.length - 1) {
-      return carData[carIndex + 1];
+      carIndex++;
+      PickCar_Name = carData[carIndex].car_name;
+      return carData[carIndex];
     }
     return null;
   }
@@ -61,50 +65,46 @@
 
 	const Map_Width = 300;
   const Map_Height = 300;
-  let Latitudes = [];
-  let Longitudes = [];
+  //let Latitudes = [];
+  //let Longitudes = [];
   let Min_Latitude;
   let Max_Latitude;
   let Min_Longitude;
   let Max_Longitude;
-  let Latitude_Range;
-  let Longitude_Range;
+  //let Latitude_Range;
+  //let Longitude_Range;
   let LATITUDE_COORD_RATIO;
   let LONGITUDE_COORD_RATIO;
 
   $: {
     if (carData && carData.length > 0) {
-      Latitudes = carData.map(car => car.lat);
-      Longitudes = carData.map(car => car.long);
+      const Latitudes = carData.map((car) => car.lat);
+      const Longitudes = carData.map((car) => car.long);
       Min_Latitude = Math.min(...Latitudes);
       Max_Latitude = Math.max(...Latitudes);
       Min_Longitude = Math.min(...Longitudes);
       Max_Longitude = Math.max(...Longitudes);
       Latitude_Range = Max_Latitude - Min_Latitude;
       Longitude_Range = Max_Longitude - Min_Longitude;
-      LATITUDE_COORD_RATIO = Map_Height / Latitude_Range;
-      LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
+      LATITUDE_COORD_RATIO = Map_Height / (Max_Latitude - Min_Latitude);
+      LONGITUDE_COORD_RATIO = Map_Width / (Max_Longitude - Min_Longitude);
     }
   }
+  //console.log("carData:", carData);
 
 </script>
 
 
 <main>
-<div class="row">
   <div class="col-4">
-    <button type="button" class="btn btn-primary" on:click={() => callPreviousCar()}>
+    <button type="button" class="btn btn-primary" on:click={() => {const previousCar = callPreviousCar(); if (previousCar) PickCar_Name = previousCar.car_name;}}>
       Previous Car
     </button>
 
-    <button type="button" class="btn btn-primary" on:click={() => callNextCar()}>
+    <button type="button" class="btn btn-primary" on:click={()  => {const nextCar = callNextCar(); if (nextCar) PickCar_Name = nextCar.car_name;}}>
       Next Car
     </button>
   </div>
-</div>
-
-
-
 
   <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
@@ -125,11 +125,14 @@
   display: flex;
   align-items: flex-start;
 }
-
-/*.gps-data {
+.svg-container {
   display: flex;
   align-items: flex-start;
-}*/
+}
+.svg-data {
+   display: flex;
+  align-items: flex-start;
+}
 
 /*.gps-image{
   width: 300px;
@@ -144,26 +147,26 @@
   <svg width="{Map_Width}" height="{Map_Height}">
     <rect x="0" y="0" width="{Map_Width}" height="{Map_Height}" fill="#efefef" />
     {#each carData as car}
-      {#if car.car_name === PickCar_Name}
       <circle
+        if: car.car_name = PickCar_Name
         cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
         cy={(car.lat - Min_Latitude) * LATITUDE_COORD_RATIO}
         r="2"
         opacity="1"
         fill={CAL_LocationColor(car.type)}
       />
-      {/if}
     {/each}
   </svg>
   </div>
 
-  <div class="gps-data">
+  <div class="svg-data">
     {#each carData as item}
       {#if item.car_name === PickCar_Name}
       <p>{item.time}: {item.location}</p>
       {/if}
     {/each}
   </div>
+
 </div>
 
    
