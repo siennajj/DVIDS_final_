@@ -8,6 +8,7 @@
   import data2 from '/src/data/carstops.json';
   import data3 from '/src/data/points_of_interest.json';
 
+
 // State
   let car = 0;
   let PickCar_Name = "";
@@ -192,13 +193,11 @@
       <div class="day-label">{day}</div>
       <div class="bar" style="width: 300px;">
         {#each customData[day] as data}
-          <div class="location-marker {data.type}
-            class:catering="{data.type === 'catering'}"
-            class:domestic="{data.type === 'domestic'}"
-            class:housing="{data.type === 'housing'}"
-            class:professional="{data.type === 'professional'}"
-            class:other="{data.type === 'other'}">
-          </div>
+          <div 
+          class="location-marker {CAL_LocationColor(data.type)}"
+          styike+
+          
+          " {data.type === 'catering' ? 'catering' : ''} {data.type === 'domestic' ? 'domestic' : ''} {data.type === 'housing' ? 'housing' : ''} {data.type === 'professional' ? 'professional' : ''} {data.type === 'other' ? 'other' : ''}"></div>
         {/each}
 
         <div class="time-marker" style="left: 0%;"></div>
