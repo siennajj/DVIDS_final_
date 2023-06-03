@@ -78,25 +78,25 @@
   const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
 
   const customData = {};
-  for (const item of data) {
+  data.forEach(item => {
     if (item.time) {
       const day = item.time.slice(0, 10);
       if (!customData[day]) {
-      customData[day] = [];
+        customData[day] = [];
+      } 
+      customData[day].push(item);
     }
-    customData[day].push(item);
-    }
-  }
+  });
     
 </script>
 
 <main>
   <div class="col-4">
-    <button type="button" class="btn btn-primary" on:click={() => {const previousCar = callPreviousCar(); if (previousCar) PickCar_Name = previousCar.car_name;}}>
+    <button type="button" class="btn btn-primary" on:click={callPreviousCar}>
       Previous Car
     </button>
 
-    <button type="button" class="btn btn-primary" on:click={()  => {const nextCar = callNextCar(); if (nextCar) PickCar_Name = nextCar.car_name;}}>
+    <button type="button" class="btn btn-primary" on:click={callNextCar}>
       Next Car
     </button>
   </div>
@@ -120,15 +120,41 @@
   display: flex;
   align-items: flex-start;
 }
-.svg-container {
+.day-bars-container {
   display: flex;
-  align-items: flex-start;
-  /*margin-right: 10px;*/
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
-.svg-data {
-  display: flex;
-  align-items: flex-start;
-  /*margin-top: 10px;*/
+.day-bar {
+  margin-bottom: 10px;
+}
+.day-label {
+  margin-bottom: 5px;
+}
+.bar {
+  position: relative;
+  height: 6px;
+  background-color: #ccc;
+}
+.location-marker {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: -2px;
+}
+.time-marker {
+  width: 1px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.time-marker-label {
+  position: absolute;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
 }
 
 </style>
@@ -136,8 +162,8 @@
 
 <div class="container">
   <div class="svg-container">
-  <svg width="{Map_Width}" height="{Map_Height}">
-    <rect x="0" y="0" width="{Map_Width}" height="{Map_Height}" fill="#efefef" />
+  <svg width="300px" height="300px">
+    <rect x="0" y="0" width="300px" height="300px" fill="#efefef" />
   {#each data as car}
     <circle
       cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
@@ -147,11 +173,10 @@
       fill={car.car_id == PickCar_Name? 'red' : 'black'}
     />
   {/each}
-  
   </svg>
   </div>
 
- <div class="svg-data">
+  <div class="svg-data">
     {#each data as item}
       {#if item.car_name === PickCar_Name}
       <p>{item.time}: {item.location}</p>
@@ -160,30 +185,38 @@
   </div>
 </div>
 
-<div style="display: flex; justify-content: flex-end;">   
-  <div class="day-bars-container" style="width: 300px; height: 300px;">
-    {#each Object.keys(customData) as day}
-      <div class="day-bar">
-        <div class="day-label">{day}</div>
-        <div class="bar" style="width: 300px;">
-          {#each customData[day] as data}
-              <div class="location-marker {data.type}"></div>
-          {/each}
-          <div class="time-marker" style="left: 0%;"></div>
-          <div class="time-marker" style="left: 25%;"></div>
-          <div class="time-marker" style="left: 50%;"></div>
-          <div class="time-marker" style="left: 75%;"></div>
-          <div class="time-marker" style="left: 100%;"></div>
-          {#if day == Object.keys(customData)[Object.keys(customData).length - 1]}
-            <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
-            <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
-            <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
-            <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
-            <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
-          {/if}
-        </div>
+
+<div class="day-bars-container">
+  {#each Object.keys(customData) as day}
+    <div class="day-bar">
+      <div class="day-label">{day}</div>
+      <div class="bar" style="width: 300px;">
+        {#each customData[day] as data}
+          <div class="location-marker {data.type}
+            class:catering="{data.type === 'catering'}"
+            class:domestic="{data.type === 'domestic'}"
+            class:housing="{data.type === 'housing'}"
+            class:professional="{data.type === 'professional'}"
+            class:other="{data.type === 'other'}">
+          </div>
+        {/each}
+
+        <div class="time-marker" style="left: 0%;"></div>
+        <div class="time-marker" style="left: 25%;"></div>
+        <div class="time-marker" style="left: 50%;"></div>
+        <div class="time-marker" style="left: 75%;"></div>
+        <div class="time-marker" style="left: 100%;"></div>
+
+        {#if day == Object.keys(customData)[Object.keys(customData).length - 1]}
+          <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
+          <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
+          <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
+          <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
+          <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
+        {/if}
+
       </div>
-    {/each}
-  </div>
+    </div>
+  {/each}
 </div>
-  
+
