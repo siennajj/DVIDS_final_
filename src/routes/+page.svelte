@@ -59,6 +59,7 @@ let PickCar_Name = '';
     console.log('Selected car ID:', PickCar_Name);
   }
 
+
  onMount(() => {
   const urlParams = new URLSearchParams(window.location.search);
   PickCar_Name = urlParams.get('param1');
@@ -105,6 +106,7 @@ let PickCar_Name = '';
 
 <svg width=600 height=600>
   <rect x="0" y="0" width="600" height="600" fill="#efefef" />
+
   {#each data as car}
     <circle
       cx={(car.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
@@ -114,9 +116,18 @@ let PickCar_Name = '';
       fill={car.car_id == PickCar_Name? 'red' : 'black'}
     />
   {/each}
- 
+  {#each data3 as location}
+    <g class="tooltip">
+    <circle
+      cx={(location.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
+      cy={(Max_Latitude - location.lat) * LATITUDE_COORD_RATIO}
+      r="7"
+      fill={CAL_LocationColor(location.type)}
+      opacity = "1"
+    />
+    <title>{location.name}</title>
+    </g>
+  {/each}
 </svg>
 
 </main>
-
-

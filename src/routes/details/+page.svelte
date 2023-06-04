@@ -19,7 +19,7 @@
     if (PickCar_Name === "all") {
       return data;
     } else {
-      return data.filter((item) => item.car_name === PickCar_Name);
+      return data2.filter((item) => item.car_name === PickCar_Name);
     }
   }
 
@@ -104,7 +104,7 @@
   <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
 
-  <div id="sliderDetails">
+<div id="sliderDetails">
   <label class="form-label col-sm-10">
   {#if PickCar_Name}
   <p> <b>Details for Car {PickCar_Name}</b></p>
@@ -114,9 +114,6 @@
 </div>   
 
 </main> 
-
-
-
 
 <style>
 .container{
@@ -163,10 +160,9 @@
 .time-marker-label {
   position: absolute;
   color: rgba(0, 0, 0, 0.5);
-  bottom: ;
+  bottom: -20px;
 
 }
-
 .professional {
   background-color: red;
 }
@@ -179,8 +175,6 @@
 .housing {
   background-color: purple;
 }
-
-
 </style>
 
 
@@ -214,28 +208,26 @@
   {#each Object.keys(customData) as day}
     <div class="day-bar">
       <div class="day-label">{day}</div>
-
       <div class="bar" style="width: 300px;">
-      {#each customData[day] as data}
-        <div class="location-marker" style="background-color: {CAL_LocationColor(data.type)};"></div>
-      {/each}
+        {#each customData[day] as data}
+            <div class="location-marker {data.type}"></div>
+        {/each}
 
-      <div class="time-marker" style="left: 0%;"></div>
-      <div class="time-marker" style="left: 25%;"></div>
-      <div class="time-marker" style="left: 50%;"></div>
-      <div class="time-marker" style="left: 75%;"></div>
-      <div class="time-marker" style="left: 100%;"></div>
+        <div class="time-marker" style="left: 0%;"></div>
+        <div class="time-marker" style="left: 25%;"></div>
+        <div class="time-marker" style="left: 50%;"></div>
+        <div class="time-marker" style="left: 75%;"></div>
+        <div class="time-marker" style="left: 100%;"></div>
 
-      {#if day == Object.keys(customData)[Object.keys(customData).length - 1]}
-      <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
-      <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
-      <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
-      <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
-      <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
-      {/if}
-     </div>
-  </div>
+        {#if day == Object.keys(customData)[Object.keys(customData).length - 1]}
+          <div class="time-marker-label" style="left: -50%; bottom: -20px;"> 0 </div>
+          <div class="time-marker-label" style="left: -25%; bottom: -20px;"> 6 </div>
+          <div class="time-marker-label" style="left: 0%; bottom: -20px;"> 12 </div>
+          <div class="time-marker-label" style="left: 25%; bottom: -20px;"> 18 </div>
+          <div class="time-marker-label" style="left: 50%; bottom: -20px;" >24 </div>
+        {/if}
+        
+      </div>
+    </div>
   {/each}
 </div>
-
-
