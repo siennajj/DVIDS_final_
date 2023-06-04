@@ -114,18 +114,7 @@ let PickCar_Name = '';
       fill={car.car_id == PickCar_Name? 'red' : 'black'}
     />
   {/each}
-  {#each data3 as location}
-    <g class="tooltip">
-    <circle
-      cx={(location.long - Min_Longitude) * LONGITUDE_COORD_RATIO}
-      cy={(Max_Latitude - location.lat) * LATITUDE_COORD_RATIO}
-      r="7"
-      fill={CAL_LocationColor(location.type)}
-      opacity = "1"
-    />
-    <title>{location.name}</title>
-    </g>
-  {/each}
+ 
 </svg>
 
 </main>

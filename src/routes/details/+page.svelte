@@ -8,7 +8,6 @@
   import data2 from '/src/data/carstops.json';
   import data3 from '/src/data/points_of_interest.json';
 
-
 // State
   let car = 0;
   let PickCar_Name = "";
@@ -20,7 +19,7 @@
     if (PickCar_Name === "all") {
       return data;
     } else {
-      return data2.filter((item) => item.car_name === PickCar_Name);
+      return data.filter((item) => item.car_name === PickCar_Name);
     }
   }
 
@@ -79,15 +78,15 @@
   const LONGITUDE_COORD_RATIO = Map_Width / Longitude_Range;
 
   const customData = {};
-  data.forEach(item => {
+  for (const item of data) {
     if (item.time) {
       const day = item.time.slice(0, 10);
       if (!customData[day]) {
-        customData[day] = [];
-      } 
-      customData[day].push(item);
+      customData[day] = [];
     }
-  });
+    customData[day].push(item);
+    }
+  }
     
 </script>
 
@@ -104,9 +103,8 @@
 
   <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
-</main> 
 
-<div id="sliderDetails">
+  <div id="sliderDetails">
   <label class="form-label col-sm-10">
   {#if PickCar_Name}
   <p> <b>Details for Car {PickCar_Name}</b></p>
@@ -114,6 +112,10 @@
   <input type="range" class="form-range" min="0" max="20160" bind:value={car} step="1440" id="slider"/>
   </label>
 </div>   
+
+</main> 
+
+
 
 
 <style>
@@ -124,39 +126,60 @@
 .day-bars-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
+  align-items: flex-end;
+  justify-content: flex-end;
+  width: 300px;
+  height: 300px;
 }
 .day-bar {
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 .day-label {
-  margin-bottom: 5px;
+  margin-right: 10px;
 }
 .bar {
   position: relative;
-  height: 6px;
-  background-color: #ccc;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
 }
 .location-marker {
+  position: absolute;
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  position: absolute;
-  top: -2px;
+  bottom: 0;
 }
 .time-marker {
+  position: absolute;
   width: 1px;
   height: 100%;
-  position: absolute;
   top: 0;
   background-color: rgba(0, 0, 0, 0.2);
 }
 .time-marker-label {
   position: absolute;
-  font-size: 12px;
   color: rgba(0, 0, 0, 0.5);
+  bottom: ;
+
 }
+
+.professional {
+  background-color: red;
+}
+.catering {
+  background-color: green;
+}
+.domestic {
+  background-color: orange;
+}
+.housing {
+  background-color: purple;
+}
+
 
 </style>
 
@@ -191,31 +214,28 @@
   {#each Object.keys(customData) as day}
     <div class="day-bar">
       <div class="day-label">{day}</div>
+
       <div class="bar" style="width: 300px;">
-        {#each customData[day] as data}
-          <div 
-          class="location-marker {CAL_LocationColor(data.type)}"
-          styike+
-          
-          " {data.type === 'catering' ? 'catering' : ''} {data.type === 'domestic' ? 'domestic' : ''} {data.type === 'housing' ? 'housing' : ''} {data.type === 'professional' ? 'professional' : ''} {data.type === 'other' ? 'other' : ''}"></div>
-        {/each}
+      {#each customData[day] as data}
+        <div class="location-marker" style="background-color: {CAL_LocationColor(data.type)};"></div>
+      {/each}
 
-        <div class="time-marker" style="left: 0%;"></div>
-        <div class="time-marker" style="left: 25%;"></div>
-        <div class="time-marker" style="left: 50%;"></div>
-        <div class="time-marker" style="left: 75%;"></div>
-        <div class="time-marker" style="left: 100%;"></div>
+      <div class="time-marker" style="left: 0%;"></div>
+      <div class="time-marker" style="left: 25%;"></div>
+      <div class="time-marker" style="left: 50%;"></div>
+      <div class="time-marker" style="left: 75%;"></div>
+      <div class="time-marker" style="left: 100%;"></div>
 
-        {#if day == Object.keys(customData)[Object.keys(customData).length - 1]}
-          <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
-          <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
-          <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
-          <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
-          <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
-        {/if}
-
-      </div>
-    </div>
+      {#if day == Object.keys(customData)[Object.keys(customData).length - 1]}
+      <div class="time-marker-label" style="left: -50%; bottom: -20px;">0</div>
+      <div class="time-marker-label" style="left: -25%; bottom: -20px;">6</div>
+      <div class="time-marker-label" style="left: 0%; bottom: -20px;">12</div>
+      <div class="time-marker-label" style="left: 25%; bottom: -20px;">18</div>
+      <div class="time-marker-label" style="left: 50%; bottom: -20px;">24</div>
+      {/if}
+     </div>
+  </div>
   {/each}
 </div>
+
 
