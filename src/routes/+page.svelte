@@ -12,17 +12,6 @@ function dataLink(event) {
 	PickData = data.filter((item) => item.car_name === PickCar_Name);
 }
 
-function processCircleCoords(item) {
-	const Map_Width = 0.0256;
-	const Cir_LatMax = 50.0784;
-	const Cir_LongMin = 4.78332;
-	const x = (item.long - Cir_LongMin) / Map_Width;
-	const y = (Cir_LatMax - item.lat) / Cir_LatMax;
-	const radious = 0.01;
-	return '${x},${y},${radius}';
-}
-
-
 function CAL_LocationColor(type) {
     switch(type) {
       case "professional":
@@ -37,6 +26,16 @@ function CAL_LocationColor(type) {
         return "blue";
     }
   }
+
+function processCircleCoords(item) {
+	const Map_Width = 0.0256;
+	const Cir_LatMax = 50.0784;
+	const Cir_LongMin = 4.78332;
+	const x = (item.long - Cir_LongMin) / Map_Width;
+	const y = (Cir_LatMax - item.lat) / Cir_LatMax;
+	const radious = 0.01;
+	return '${x},${y},${radius}';
+}
 
 	const Map_Width = 600;
   const Map_Height = 600;

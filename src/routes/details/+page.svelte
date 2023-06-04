@@ -8,7 +8,7 @@
   import data2 from '/src/data/carstops.json';
   import data3 from '/src/data/points_of_interest.json';
 
-// State
+  // State
   let car = 0;
   let PickCar_Name = "";
   let carIndex = 0;
