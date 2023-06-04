@@ -89,17 +89,8 @@
 </script>
 
 <main>
-  <div class="col-4">
-    <button type="button" class="btn btn-primary" on:click={callPreviousCar}>
-      Previous Car
-    </button>
-
-    <button type="button" class="btn btn-primary" on:click={callNextCar}>
-      Next Car
-    </button>
-  </div>
-
-  
+  <p><a href={`/details?param1=${encodeURIComponent('callPreviousCar')}`}>Previous Car</a>
+  <a href={`/details?param1=${encodeURIComponent('callNextCar')}`}>Next Car</a></p>
 
   <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
