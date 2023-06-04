@@ -37,7 +37,6 @@
       PickCar_Name = carData[carIndex].car_name;
       return carData[carIndex];
     }
-    return null;
   }
 
   function callNextCar() {
@@ -46,7 +45,6 @@
       PickCar_Name = carData[carIndex].car_name;
       return carData[carIndex];
     }
-    return null;
   }
 
   function CAL_LocationColor(type) {
@@ -100,6 +98,8 @@
       Next Car
     </button>
   </div>
+
+  
 
   <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
@@ -188,8 +188,7 @@
       cy={(car.lat - Min_Latitude) * LATITUDE_COORD_RATIO}
       r="2"
       opacity="1"
-      fill={car.car_id == PickCar_Name? 'red' : 'black'}
-    />
+      fill={car.car_id == PickCar_Name ? CAL_LocationColor(location.type) : 'darkgrey'} />
   {/each}
   </svg>
   </div>
