@@ -90,8 +90,8 @@
 
 <main>
   <p>
-  <a href={`/details?param1=${encodeURIComponent('callPreviousCar()')}`}>Previous Car</a>
-  <a href={`/details?param1=${encodeURIComponent('callNextCar()')}`}>Next Car</a>
+  <a href={`/details?param1=${encodeURIComponent(callPreviousCar())}`}>Previous Car</a>
+  <a href={`/details?param1=${encodeURIComponent(callNextCar())}`}>Next Car</a>
   </p>
 
 
