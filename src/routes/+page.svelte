@@ -26,13 +26,13 @@ function processCircleCoords(item) {
 function CAL_LocationColor(type) {
     switch(type) {
       case "professional":
-        return "red";
-      case "catering":
-        return "green";
-      case "domestic":
         return "orange";
-      case "housing":
+      case "catering":
         return "purple";
+      case "domestic":
+        return "pink";
+      case "housing":
+        return "green";
       default:
         return "blue";
     }
