@@ -11,8 +11,8 @@
 // State
   let car = 0;
   let PickCar_Name = "";
-  let carData = [];
   let carIndex = 0;
+
  
    // Select which data to show
   function selectData() {
@@ -27,23 +27,23 @@
     const urlParams = new URLSearchParams(window.location.search);
     PickCar_Name = urlParams.get('param1');
     //Car_Overview = urlParams.get('param2');
-    carData = selectData();
-    carIndex = carData.findIndex((car) => car.car_name === PickCar_Name);
+    //carData = selectData();
+    carIndex = data.findIndex((car) => car.car_name === PickCar_Name);
   });
 
   function callPreviousCar() {
     if (carIndex > 0) {
       carIndex--;
-      PickCar_Name = carData[carIndex].car_name;
-      return carData[carIndex];
+      PickCar_Name = data[carIndex].car_name;
+      return data[carIndex];
     }
   }
 
   function callNextCar() {
-    if (carIndex < carData.length - 1) {
+    if (carIndex < data.length - 1) {
       carIndex++;
-      PickCar_Name = carData[carIndex].car_name;
-      return carData[carIndex];
+      PickCar_Name = data[carIndex].car_name;
+      return data[carIndex];
     }
   }
 
@@ -89,8 +89,11 @@
 </script>
 
 <main>
-  <p><a href={`/details?param1=${encodeURIComponent('callPreviousCar')}`}>Previous Car</a>
-  <a href={`/details?param1=${encodeURIComponent('callNextCar')}`}>Next Car</a></p>
+  <p>
+  <a href={`/details?param1=${encodeURIComponent('callPreviousCar()')}`}>Previous Car</a>
+  <a href={`/details?param1=${encodeURIComponent('callNextCar()')}`}>Next Car</a>
+  </p>
+
 
   <ul><b style="font-size: 23px;"> Sienna Jeong - KU Leuven - r0881089 </b> </ul>
 
@@ -180,6 +183,7 @@
       r="2"
       opacity="1"
       fill={car.car_id == PickCar_Name ? CAL_LocationColor(location.type) : 'darkgrey'} />
+
   {/each}
   </svg>
   </div>
