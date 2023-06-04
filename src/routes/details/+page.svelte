@@ -120,7 +120,7 @@
   display: flex;
   align-items: flex-start;
 }
-.day-bars-container {
+.timeline-container {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -128,12 +128,12 @@
   width: 300px;
   height: 300px;
 }
-.day-bar {
+.dayBars {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
-.day-label {
+.day_label {
   margin-right: 10px;
 }
 .bar {
@@ -143,21 +143,21 @@
   display: flex;
   align-items: flex-end;
 }
-.location-marker {
+.timeline_event {
   position: absolute;
   width: 6px;
   height: 6px;
   border-radius: 50%;
   bottom: 0;
 }
-.time-marker {
+.timeline {
   position: absolute;
   width: 1px;
   height: 100%;
   top: 0;
   background-color: rgba(0, 0, 0, 0.2);
 }
-.time-marker-label {
+.timeline_label {
   position: absolute;
   color: rgba(0, 0, 0, 0.5);
   bottom: -20px;
@@ -204,28 +204,27 @@
 </div>
 
 
-<div class="day-bars-container">
+<div class="timeline-container">
   {#each Object.keys(customData) as day}
-    <div class="day-bar">
-      <div class="day-label">{day}</div>
+    <div class="dayBars">
+      <div class="day_label">{day}</div>
       <div class="bar" style="width: 300px;">
+
         {#each customData[day] as data}
-            <div class="location-marker {data.type}"></div>
+            <div class="timeline_event {data.type}"></div>
         {/each}
 
-        <div class="time-marker" style="left: 0%;"></div>
-        <div class="time-marker" style="left: 25%;"></div>
-        <div class="time-marker" style="left: 50%;"></div>
-        <div class="time-marker" style="left: 75%;"></div>
-        <div class="time-marker" style="left: 100%;"></div>
+        <div class="timeline" style="left: 0%;"></div>
+        <div class="timeline" style="left: 25%;"></div>
+        <div class="timeline" style="left: 50%;"></div>
+        <div class="timeline" style="left: 75%;"></div>
+        <div class="timeline" style="left: 100%;"></div>
 
-        {#if day == Object.keys(customData)[Object.keys(customData).length - 1]}
-          <div class="time-marker-label" style="left: -50%; bottom: -20px;"> 0 </div>
-          <div class="time-marker-label" style="left: -25%; bottom: -20px;"> 6 </div>
-          <div class="time-marker-label" style="left: 0%; bottom: -20px;"> 12 </div>
-          <div class="time-marker-label" style="left: 25%; bottom: -20px;"> 18 </div>
-          <div class="time-marker-label" style="left: 50%; bottom: -20px;" >24 </div>
-        {/if}
+        <div class="timeline_label" style="left: -50%; bottom: -20px;"> 0 </div>
+        <div class="timeline_label" style="left: -25%; bottom: -20px;"> 6 </div>
+        <div class="timeline_label" style="left: 0%; bottom: -20px;"> 12 </div>
+        <div class="timeline_label" style="left: 25%; bottom: -20px;"> 18 </div>
+        <div class="timeline_label" style="left: 50%; bottom: -20px;" >24 </div>
         
       </div>
     </div>
